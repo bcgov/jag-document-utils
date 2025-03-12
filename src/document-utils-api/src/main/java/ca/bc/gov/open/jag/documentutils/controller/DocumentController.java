@@ -1,9 +1,10 @@
-package ca.bc.gov.open.jag.documentutils.api;
+package ca.bc.gov.open.jag.documentutils.controller;
 
 import ca.bc.gov.open.jag.documentutils.Keys;
-import ca.bc.gov.open.jag.documentutils.adobe.AemService;
+import ca.bc.gov.open.jag.documentutils.adobe.service.AemService;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeRequest;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeResponse;
+import ca.bc.gov.open.jag.documentutils.utils.MediaTypes;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -14,15 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 
- * Main RESTful controller. 
+ * Main controller. 
  * 
  * @author shaunmillargov
  *
  */
-
 @RestController
 @Validated
 @RequestMapping("document")
@@ -52,7 +51,7 @@ public class DocumentController {
 		MDC.put(Keys.CLIENT_ID, clientId);
 		MDC.put(Keys.OPERATION, "MergeDocuments");
 
-		ResponseEntity result = ResponseEntity.ok(aemService.mergePDFDocuments(request, correlationId));
+		ResponseEntity<DocMergeResponse> result = ResponseEntity.ok(aemService.mergePDFDocuments(request, correlationId));
 
 		MDC.remove(Keys.CORRELATION_ID);
 		MDC.remove(Keys.CLIENT_ID);

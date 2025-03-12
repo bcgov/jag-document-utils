@@ -26,7 +26,7 @@ public class GlobalControllerAdvice {
 
     // Doc Merge validation errors
     private static String NO_HANDLER_ERROR = "Request URL does not exist";
-    private static String UNKNOWN_ERROR = "Unexpected error occurred";
+    //private static String UNKNOWN_ERROR = "Unexpected error occurred";
     private static String MISSING_REQUEST_BODY_ERROR = "Required data not found in the request body";
 
 

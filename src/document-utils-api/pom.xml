@@ -6,29 +6,34 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.4.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.bc.gov.open</groupId>
 	<artifactId>document-utils-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>document-utils-api</name>
-	<description>A RESTful Document Merging Service</description>
+	<description>JUSTIN PDF Document Merging Service</description>
 
 	<properties>
 		<java.version>17</java.version>
 		<log4j2.version>2.24.1</log4j2.version>
 		<springfox.version>3.0.0</springfox.version>
+		<!--
 		<org.apache.axis.version>1.4</org.apache.axis.version>
-		<commons-io.version>2.14.0</commons-io.version>
+		-->
+		<commons-io.version>2.18.0</commons-io.version>
 		<commons-discovery.version>0.5</commons-discovery.version>
-		<org.apache.pdfbox.version>2.0.21</org.apache.pdfbox.version>
-		<com.adobe.livecycle.version>11.0.0</com.adobe.livecycle.version>
+		<org.apache.pdfbox.version>3.0.4</org.apache.pdfbox.version>
+		<!--
 		<com.adobe.aem.version>6.5.0</com.adobe.aem.version>
+		-->
 		<org.jacoco.version>0.8.12</org.jacoco.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
 		<io.opentracing.contrib.version>0.3.2</io.opentracing.contrib.version>
+		<logback-access-version>1.4.14</logback-access-version>
 		<org.keycloak.version>11.0.3</org.keycloak.version>
+		<cxf-version>4.1.0</cxf-version>
 	</properties>
 
 	<dependencies>
@@ -85,7 +90,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
-			<version>1.4.14</version>
+			<version>${logback-access-version}</version>
 		</dependency>
 
 		<dependency>
@@ -100,12 +105,39 @@
 			<artifactId>opentracing-spring-web-autoconfigure</artifactId>
 			<version>${io.opentracing.contrib.version}</version>
 		</dependency>
+		
+		<!-- Oauth2 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		
+		<!-- Apache CXF for Java Proxies and SOAP clients -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>${cxf-version}</version>
+		</dependency>
+		
+		<!-- CXF logging -->
+		<dependency>
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-rt-features-logging</artifactId>
+		    <version>${cxf-version}</version>
+		</dependency>
+
+		<!--
 		<dependency>
 			<groupId>org.apache.axis</groupId>
 			<artifactId>axis-jaxrpc</artifactId>
 			<version>${org.apache.axis.version}</version>
 		</dependency>
+		-->
 
 		<!-- Apache common libs -->
 		<dependency>
@@ -120,10 +152,12 @@
 			<version>${commons-discovery.version}</version>
 		</dependency>
 
+	 	<!--
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
+		-->
 
 		<!-- PDF Box -->
 		<dependency>
@@ -132,53 +166,50 @@
 			<version>${org.apache.pdfbox.version}</version>
 		</dependency>
 
-		<!-- Adobe commons libs -->
+		<!-- Adobe commons libs
 		<dependency>
 			<groupId>com.adobe.livecycle</groupId>
 			<artifactId>aemformsjee-client-sdk</artifactId>
 			<version>${com.adobe.aem.version}</version>
 		</dependency>
-
+		-->
+		
+		<!--
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
-
+		-->
+	
+		<!--
 		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
-
+  		-->
+		
+		<!--
 		<dependency>
 			<groupId>org.glassfish.corba</groupId>
 			<artifactId>glassfish-corba-omgapi</artifactId>
 			<version>4.2.1</version>
 		</dependency>
-
+		-->
+		
 		<dependency>
 			<groupId>dev.akkinoc.spring.boot</groupId>
 			<artifactId>logback-access-spring-boot-starter</artifactId>
 			<version>4.1.1</version>
 		</dependency>
 
-		<!-- Non updatable but required to run -->
+		<!-- Non updatable but required to run
 		<dependency>
 			<groupId>org.apache.axis</groupId>
 			<artifactId>axis</artifactId>
 			<version>${org.apache.axis.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
@@ -196,6 +227,7 @@
 			<artifactId>javax.xml.soap-api</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+		-->
 
 	</dependencies>
 
@@ -268,6 +300,32 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- Proxy class generation for AEM SOAP clients -->
+			<plugin>
+	            <groupId>org.apache.cxf</groupId>
+	            <artifactId>cxf-codegen-plugin</artifactId>
+	            <version>${cxf-version}</version> <!-- Replace with the desired version -->
+	            <executions>
+	                <execution>
+	                    <id>generate-sources</id>
+	                    <phase>generate-sources</phase>
+	                    <configuration>
+	                        <wsdlOptions>
+	                            <wsdlOption>
+	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-assembler_v901modified.wsdl</wsdl>
+	                            </wsdlOption>
+	                            <wsdlOption>
+	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-docconverter_v901.wsdl</wsdl>
+	                            </wsdlOption>
+	                        </wsdlOptions>
+	                    </configuration>
+	                    <goals>
+	                        <goal>wsdl2java</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+        	</plugin>
 
 		</plugins>
 	</build>

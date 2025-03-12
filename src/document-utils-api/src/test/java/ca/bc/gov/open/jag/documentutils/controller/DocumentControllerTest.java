@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.documentutils.controller;
 
 import ca.bc.gov.open.jag.documentutils.adobe.AemService;
-import ca.bc.gov.open.jag.documentutils.api.DocumentController;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeRequest;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeResponse;
 import ca.bc.gov.open.jag.documentutils.api.models.Document;

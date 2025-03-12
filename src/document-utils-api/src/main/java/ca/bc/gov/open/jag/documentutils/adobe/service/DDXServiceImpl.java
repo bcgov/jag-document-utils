@@ -1,27 +1,30 @@
-package ca.bc.gov.open.jag.documentutils.adobe;
+package ca.bc.gov.open.jag.documentutils.adobe.service;
 
-import ca.bc.gov.open.jag.documentutils.adobe.models.MergeDoc;
-import ca.bc.gov.open.jag.documentutils.exception.DocumentParserException;
+import java.io.StringWriter;
+import java.util.LinkedList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.util.LinkedList;
+import ca.bc.gov.open.jag.documentutils.adobe.AdobeKeys;
+import ca.bc.gov.open.jag.documentutils.adobe.models.MergeDoc;
+import ca.bc.gov.open.jag.documentutils.exception.DocumentParserException;
+import ca.bc.gov.open.jag.documentutils.exception.MergeException;
 
 
 /**
- * A set of DDX utils.
+ * A set of Adobe DDX utils.
  *
  * @author shaunmillargov
  */
@@ -30,14 +33,11 @@ public class DDXServiceImpl implements DDXService {
 
     private final static Logger logger = LoggerFactory.getLogger(DDXServiceImpl.class);
 
+    //private final DocumentBuilderFactory documentBuilderFactory;
 
-    private final DocumentBuilderFactory documentBuilderFactory;
-    private final TransformerFactory transformerFactory;
-
-    public DDXServiceImpl(DocumentBuilderFactory documentBuilderFactory, TransformerFactory transformerFactory) {
-        this.documentBuilderFactory = documentBuilderFactory;
-        this.transformerFactory = transformerFactory;
-    }
+   // public DDXServiceImpl(DocumentBuilderFactory documentBuilderFactory) {
+    //    this.documentBuilderFactory = documentBuilderFactory;
+    //}
 
     /**
      * Creates a Merge DDX document for Assembler using an org.w3c.dom.Document object
@@ -46,12 +46,27 @@ public class DDXServiceImpl implements DDXService {
      * @throws Exception
      */
     @Override
-    public Document createMergeDDX(LinkedList<MergeDoc> pageList, boolean addToC)  {
+    public String createMergeDDX(LinkedList<MergeDoc> pageList, boolean addToC)  {
+    	
+// TODO - clean me up if this work.     	
 
+//        // Create a new Document object
+//        DocumentBuilder documentBuilder = null;
+//        try {
+//            documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//        } catch (ParserConfigurationException e) {
+//
+//            logger.error("Error Creating document Builder", e);
+//            throw new DocumentParserException("Error Creating document Builder", e);
+//        }
+//        Document document = documentBuilder.newDocument();
+    	
+    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    	
         // Create a new Document object
         DocumentBuilder documentBuilder = null;
         try {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            documentBuilder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
 
             logger.error("Error Creating document Builder", e);
@@ -78,7 +93,6 @@ public class DDXServiceImpl implements DDXService {
         }
 
         // Add each pageId element to the DDX
-        int c = 1;
         for( MergeDoc element: pageList ) {
         	
             Element PDF = (Element) document.createElement(AdobeKeys.DDX_ELEMENT_PDF);
@@ -94,39 +108,39 @@ public class DDXServiceImpl implements DDXService {
             }
             
             PDFs.appendChild(PDF);
-            ++c;
         }
 
-        return document;
+        return convertDocumentToString(document);
 
     }
-
+    
     /**
-     * Converts between org.w3c.dom.Document and com.adobe.idp.Document types.
-     *
-     * @param ddx
+     * 
+     * Converts an org.w3.dom.Document to String. 
+     * 
+     * @param doc
      * @return
      */
-    @Override
-    public com.adobe.idp.Document convertDDX(Document ddx) {
-
+    public static String convertDocumentToString(Document doc) {
+    	
         try {
-            Transformer transForm = this.transformerFactory.newTransformer();
+            // Create a Transformer instance
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
 
-            ByteArrayOutputStream myOutStream = new ByteArrayOutputStream();
-            javax.xml.transform.dom.DOMSource myInput = new DOMSource(ddx);
-            javax.xml.transform.stream.StreamResult myOutput = new StreamResult(myOutStream);
+            // Prepare the DOMSource and StreamResult
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult streamResult = new StreamResult(writer);
 
-            transForm.transform(myInput, myOutput);
+            // Transform the document to a String
+            transformer.transform(domSource, streamResult);
 
-            byte[] byteArray = myOutStream.toByteArray();
-
-            return new com.adobe.idp.Document(byteArray);
-        } catch (TransformerException e) {
-            logger.error("Error Creating document Builder", e);
-            throw new DocumentParserException("Error converting document to DDX", e);
+            return writer.toString();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new MergeException("Error converting a Document object to a string.", e);
         }
-
     }
-
 }
