@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://adobe.com/idp/services" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://adobe.com/idp/services" xmlns:intf="http://adobe.com/idp/services" xmlns:tns1="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--Generated for Adobe LiveCycle 9.0.1-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://adobe.com/idp/services" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>
+   <element name="toPDFA">
+    <complexType>
+     <sequence>
+      <element name="inDoc" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="options" type="impl:PDFAConversionOptionSpec"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="MyMapOf_xsd_string_To_xsd_anyType_Item">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:string"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="MyMapOf_xsd_string_To_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:MyMapOf_xsd_string_To_xsd_anyType_Item"/>
+    </sequence>
+   </complexType>
+   <complexType name="BLOB">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="contentType" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="binaryData" type="xsd:base64Binary"/>
+     <element maxOccurs="1" minOccurs="0" name="attachmentID" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="remoteURL" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="MTOM" type="xsd:base64Binary" xmime:expectedContentTypes="*/*" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"/>
+     <element maxOccurs="1" minOccurs="0" name="swaRef" type="tns1:swaRef"/>
+     <element maxOccurs="1" minOccurs="0" name="attributes" type="impl:MyMapOf_xsd_string_To_xsd_anyType"/>
+    </sequence>
+   </complexType>
+   <simpleType name="PDFAConversionOptionSpec_ColorSpace">
+    <restriction base="xsd:string">
+     <enumeration value="S_RGB"/>
+     <enumeration value="COATED_FOGRA27"/>
+     <enumeration value="JAPAN_COLOR_COATED"/>
+     <enumeration value="SWOP"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="PDFAConversionOptionSpec_Compliance">
+    <restriction base="xsd:string">
+     <enumeration value="PDFA_1B"/>
+     <enumeration value="PDFA_2B"/>
+     <enumeration value="PDFA_3B"/>
+    </restriction>
+   </simpleType>
+   <complexType name="MyArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <simpleType name="PDFAConversionOptionSpec_OptionalContent">
+    <restriction base="xsd:string">
+     <enumeration value="VISIBLE"/>
+     <enumeration value="ALL"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="PDFAConversionOptionSpec_ResultLevel">
+    <restriction base="xsd:string">
+     <enumeration value="PASS_FAIL"/>
+     <enumeration value="SUMMARY"/>
+     <enumeration value="DETAILED"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="PDFAConversionOptionSpec_Signatures">
+    <restriction base="xsd:string">
+     <enumeration value="ARCHIVE_AS_NEEDED"/>
+     <enumeration value="ARCHIVE_ALWAYS"/>
+    </restriction>
+   </simpleType>
+   <complexType name="PDFAConversionOptionSpec">
+    <sequence>
+     <element name="colorSpace" nillable="true" type="impl:PDFAConversionOptionSpec_ColorSpace"/>
+     <element name="compliance" nillable="true" type="impl:PDFAConversionOptionSpec_Compliance"/>
+     <element name="logLevel" nillable="true" type="xsd:string"/>
+     <element name="metadataSchemaExtensions" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="optionalContent" nillable="true" type="impl:PDFAConversionOptionSpec_OptionalContent"/>
+     <element name="removeInvalidXMPProperties" type="xsd:boolean"/>
+     <element name="resultLevel" nillable="true" type="impl:PDFAConversionOptionSpec_ResultLevel"/>
+     <element name="signatures" nillable="true" type="impl:PDFAConversionOptionSpec_Signatures"/>
+     <element name="verify" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="toPDFAResponse">
+    <complexType>
+     <sequence>
+      <element name="result" nillable="true" type="impl:PDFAConversionResult"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="PDFAConversionResult">
+    <sequence>
+     <element name="PDFADocument" nillable="true" type="impl:BLOB"/>
+     <element name="conversionLog" nillable="true" type="impl:BLOB"/>
+     <element name="isPDFA" type="xsd:boolean"/>
+     <element name="jobLog" nillable="true" type="impl:BLOB"/>
+    </sequence>
+   </complexType>
+   <element name="ConversionException" type="xsd:anyType"/>
+   <element name="isPDFA">
+    <complexType>
+     <sequence>
+      <element name="inDoc" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="options" type="impl:PDFAValidationOptionSpec"/>
+     </sequence>
+    </complexType>
+   </element>
+   <simpleType name="PDFAValidationOptionSpec_Compliance">
+    <restriction base="xsd:string">
+     <enumeration value="PDFA_1B"/>
+     <enumeration value="PDFA_2B"/>
+     <enumeration value="PDFA_3B"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="PDFAValidationOptionSpec_ResultLevel">
+    <restriction base="xsd:string">
+     <enumeration value="PASS_FAIL"/>
+     <enumeration value="SUMMARY"/>
+     <enumeration value="DETAILED"/>
+    </restriction>
+   </simpleType>
+   <complexType name="PDFAValidationOptionSpec">
+    <sequence>
+     <element name="allowCertificationSignatures" type="xsd:boolean"/>
+     <element name="compliance" nillable="true" type="impl:PDFAValidationOptionSpec_Compliance"/>
+     <element name="ignoreUnusedResource" type="xsd:boolean"/>
+     <element name="logLevel" nillable="true" type="xsd:string"/>
+     <element name="resultLevel" nillable="true" type="impl:PDFAValidationOptionSpec_ResultLevel"/>
+    </sequence>
+   </complexType>
+   <element name="isPDFAResponse">
+    <complexType>
+     <sequence>
+      <element name="result" nillable="true" type="impl:PDFAValidationResult"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="PDFAValidationResult">
+    <sequence>
+     <element name="isPDFA" type="xsd:boolean"/>
+     <element name="jobLog" nillable="true" type="impl:BLOB"/>
+     <element name="validationLog" nillable="true" type="impl:BLOB"/>
+    </sequence>
+   </complexType>
+   <element name="ValidationException" type="xsd:anyType"/>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://ws-i.org/profiles/basic/1.1/xsd" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://adobe.com/idp/services"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <simpleType name="swaRef">
+    <restriction base="xsd:anyURI"/>
+   </simpleType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://adobe.com/idp/services"/>
+   <import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>
+   <complexType name="Vector">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="toPDFARequest">
+
+      <wsdl:part element="impl:toPDFA" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPDFARequest">
+
+      <wsdl:part element="impl:isPDFA" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPDFAResponse">
+
+      <wsdl:part element="impl:isPDFAResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="toPDFAResponse">
+
+      <wsdl:part element="impl:toPDFAResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ValidationException">
+
+      <wsdl:part element="impl:ValidationException" name="ValidationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ConversionException">
+
+      <wsdl:part element="impl:ConversionException" name="ConversionException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="DocConverterService">
+
+      <wsdl:operation name="toPDFA">
+
+         <wsdl:input message="impl:toPDFARequest" name="toPDFARequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:toPDFAResponse" name="toPDFAResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:ConversionException" name="ConversionException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPDFA">
+
+         <wsdl:input message="impl:isPDFARequest" name="isPDFARequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isPDFAResponse" name="isPDFAResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:ValidationException" name="ValidationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DocConverterServiceSoapBinding" type="impl:DocConverterService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="toPDFA">
+
+         <wsdlsoap:operation soapAction="toPDFA..9.0.1"/>
+
+         <wsdl:input name="toPDFARequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="toPDFAResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="ConversionException">
+
+            <wsdlsoap:fault name="ConversionException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPDFA">
+
+         <wsdlsoap:operation soapAction="isPDFA..9.0.1"/>
+
+         <wsdl:input name="isPDFARequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isPDFAResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="ValidationException">
+
+            <wsdlsoap:fault name="ValidationException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DocConverterServiceService">
+
+      <wsdl:port binding="impl:DocConverterServiceSoapBinding" name="DocConverterService">
+
+         <wsdlsoap:address location="http://aem.dev.ag.gov.bc.ca/soap/services/DocConverterService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

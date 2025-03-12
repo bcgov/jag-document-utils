@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.documentutils.adobe;
+package ca.bc.gov.open.jag.documentutils.adobe.service;
 
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeRequest;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeResponse;

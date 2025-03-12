@@ -1,12 +1,10 @@
-/**
- * @(#)PDFBoxUtilities.java
- * Copyright (c) 2012, B.C. Ministry of Attorney General.
- * All rights reserved.
- */
+
 package ca.bc.gov.open.jag.documentutils.utils;
 
-import ca.bc.gov.open.jag.documentutils.adobe.models.MergeDoc;
-import ca.bc.gov.open.jag.documentutils.exception.MergeException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -14,9 +12,8 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDXFAResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import ca.bc.gov.open.jag.documentutils.adobe.models.MergeDoc;
+import ca.bc.gov.open.jag.documentutils.exception.MergeException;
 
 /**
  * 
@@ -69,11 +66,9 @@ public class PDFBoxUtilities {
 	 * @throws MergeException
 	 */
 	private static PDDocument getPDDocFromBytes(byte[] pdfFile) {
-		
-		ByteArrayInputStream bis = new ByteArrayInputStream(pdfFile);
 			
 		try {
-			return PDDocument.load(bis);
+		    return Loader.loadPDF(pdfFile);
 		} catch (InvalidPasswordException e) {
 			throw new MergeException("Password Protected PDF.", e.getCause());
 		} catch (IOException e) {
@@ -92,7 +87,7 @@ public class PDFBoxUtilities {
 		PDDocument doc;
 		int pages = 0;
 		try {
-			doc = PDDocument.load(file);
+			doc = Loader.loadPDF(file);
 			pages = doc.getNumberOfPages();
 			doc.close();
 			return pages;
@@ -113,7 +108,7 @@ public class PDFBoxUtilities {
 		
 		logger.info("Calling addPage");
 		
-		PDDocument doc = PDDocument.load(pdfDoc.getFile());
+		PDDocument doc = Loader.loadPDF(pdfDoc.getFile());
 		doc.addPage(new PDPage());
 
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
