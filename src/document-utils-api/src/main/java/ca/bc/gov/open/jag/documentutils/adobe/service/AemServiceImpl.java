@@ -30,6 +30,7 @@ import ca.bc.gov.open.jag.documentutils.utils.PDFBoxUtilities;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.mail.util.ByteArrayDataSource;
+import jakarta.xml.ws.WebServiceException;
 
 @Service
 //TODO - Does this need to be request scope??
@@ -212,9 +213,6 @@ public class AemServiceImpl implements AemService {
 		
 		PDFAConversionOptionSpec convOptSpec = new PDFAConversionOptionSpec();
 		
-		//TODO - set me off for prod. 
-		convOptSpec.setLogLevel("FINE");
-		
 		try {
 			
 			DataHandler dh = createDataHandler(inputFile);
@@ -222,14 +220,19 @@ public class AemServiceImpl implements AemService {
 			inDoc.setMTOM(dh);
 			
 			// Convert to PDF/A
-			PDFAConversionResult cServiceResult = docConverterClient.getDocConverterService().toPDFA(inDoc, convOptSpec);
-			BLOB pdfADoc = cServiceResult.getPDFADocument();
-			
-			return IOUtils.toByteArray(pdfADoc.getMTOM().getInputStream());
+			try {
+				PDFAConversionResult cServiceResult = docConverterClient.getDocConverterService().toPDFA(inDoc, convOptSpec);
+				BLOB pdfADoc = cServiceResult.getPDFADocument();
+				return IOUtils.toByteArray(pdfADoc.getMTOM().getInputStream());
+				
+			} catch (WebServiceException wse) {
+				String err = "Error received from AEM Document Converter service: " + wse.getMessage();
+				throw new Exception(err, wse);
+			}
 		
 		} catch (Exception ex) {
-			logger.error("Error while converting document to PDF/A", ex);
-			throw new MergeException("Error while converting document to PDF/A", ex);
+			logger.error("Error while converting document to PDF/A: " + ex.getMessage());
+			throw new MergeException(ex.getMessage(), ex);
 		}
 	}
 }
