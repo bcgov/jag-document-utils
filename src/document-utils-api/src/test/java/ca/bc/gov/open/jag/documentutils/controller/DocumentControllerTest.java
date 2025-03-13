@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.documentutils.controller;
 
-import ca.bc.gov.open.jag.documentutils.adobe.AemService;
+import ca.bc.gov.open.jag.documentutils.adobe.service.AemServiceImpl;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeRequest;
 import ca.bc.gov.open.jag.documentutils.api.models.DocMergeResponse;
 import ca.bc.gov.open.jag.documentutils.api.models.Document;
@@ -21,16 +21,15 @@ import java.util.List;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DocumentControllerTest {
 
-
     public DocumentController sut;
 
     @Mock
-    private AemService aemServiceMock;
-
+    private AemServiceImpl aServiceMock;
+    
     @BeforeEach
     public void beforeEach() throws MergeException {
 
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         DocMergeResponse documentMerged = new DocMergeResponse();
         String document = "the document";
@@ -39,15 +38,15 @@ public class DocumentControllerTest {
 
         Mockito
                 .doReturn(documentMerged)
-                .when(aemServiceMock).mergePDFDocuments(
+                .when(aServiceMock).mergePDFDocuments(
                 ArgumentMatchers.argThat(x -> x.getOptions().isCreateToC() == true), Mockito.anyString());
 
         Mockito
                 .doThrow(MergeException.class)
-                .when(aemServiceMock).mergePDFDocuments(
+                .when(aServiceMock).mergePDFDocuments(
                 ArgumentMatchers.argThat(x -> x.getOptions().isCreateToC() == false), Mockito.anyString());
 
-        sut = new DocumentController(aemServiceMock);
+        sut = new DocumentController(aServiceMock);
     }
 
     @Test

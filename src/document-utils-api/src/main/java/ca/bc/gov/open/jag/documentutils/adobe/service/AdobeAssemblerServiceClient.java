@@ -30,7 +30,7 @@ public class AdobeAssemblerServiceClient {
      * Creates a CXF Adobe Assembler Service client with MTOM enabled.
      */
 	@Bean
-    AssemblerService getAssemblerService() {
+	public AssemblerService getAssemblerService() {
     	
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setServiceClass(AssemblerService.class);
