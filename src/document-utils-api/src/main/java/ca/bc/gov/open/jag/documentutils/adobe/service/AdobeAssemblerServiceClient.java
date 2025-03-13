@@ -37,8 +37,10 @@ public class AdobeAssemblerServiceClient {
         factory.setAddress(props.getEndpoint() + AEM_SERVICE_FRAG);
         
         // Add in and out logging interceptors (good for debugging). 
-        factory.getInInterceptors().add(new LoggingInInterceptor());  
-        factory.getOutInterceptors().add(new LoggingOutInterceptor());
+        if (props.isCxfLogging()) {
+        	factory.getInInterceptors().add(new LoggingInInterceptor());  
+        	factory.getOutInterceptors().add(new LoggingOutInterceptor());
+        }
 
         AssemblerService service = (AssemblerService) factory.create();
 
