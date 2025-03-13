@@ -33,7 +33,7 @@ import jakarta.mail.util.ByteArrayDataSource;
 import jakarta.xml.ws.WebServiceException;
 
 @Service
-//TODO - Does this need to be request scope??
+//Does this need to be request scope?? - Don't think so. 
 //@Scope("request")
 public class AemServiceImpl implements AemService {
 
