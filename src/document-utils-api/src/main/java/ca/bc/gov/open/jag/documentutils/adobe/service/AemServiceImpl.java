@@ -228,8 +228,8 @@ public class AemServiceImpl implements AemService {
 			return IOUtils.toByteArray(pdfADoc.getMTOM().getInputStream());
 		
 		} catch (Exception ex) {
-			logger.error("Error while converting document tp PDF/A", ex);
-			throw new MergeException("Error while converting document tp PDF/A", ex);
+			logger.error("Error while converting document to PDF/A", ex);
+			throw new MergeException("Error while converting document to PDF/A", ex);
 		}
 	}
 }
