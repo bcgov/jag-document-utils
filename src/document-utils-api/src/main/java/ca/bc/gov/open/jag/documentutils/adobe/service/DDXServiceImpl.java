@@ -33,12 +33,6 @@ public class DDXServiceImpl implements DDXService {
 
     private final static Logger logger = LoggerFactory.getLogger(DDXServiceImpl.class);
 
-    //private final DocumentBuilderFactory documentBuilderFactory;
-
-   // public DDXServiceImpl(DocumentBuilderFactory documentBuilderFactory) {
-    //    this.documentBuilderFactory = documentBuilderFactory;
-    //}
-
     /**
      * Creates a Merge DDX document for Assembler using an org.w3c.dom.Document object
      *
@@ -47,19 +41,6 @@ public class DDXServiceImpl implements DDXService {
      */
     @Override
     public String createMergeDDX(LinkedList<MergeDoc> pageList, boolean addToC)  {
-    	
-// TODO - clean me up if this work.     	
-
-//        // Create a new Document object
-//        DocumentBuilder documentBuilder = null;
-//        try {
-//            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-//        } catch (ParserConfigurationException e) {
-//
-//            logger.error("Error Creating document Builder", e);
-//            throw new DocumentParserException("Error Creating document Builder", e);
-//        }
-//        Document document = documentBuilder.newDocument();
     	
     	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     	
@@ -140,7 +121,7 @@ public class DDXServiceImpl implements DDXService {
             
         } catch (Exception e) {
             e.printStackTrace();
-            throw new MergeException("Error converting a Document object to a string.", e);
+            throw new MergeException("Error converting a DDX Document object to a string.", e);
         }
     }
 }
