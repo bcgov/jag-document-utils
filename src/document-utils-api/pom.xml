@@ -37,6 +37,7 @@
 		
 		<org.keycloak.version>11.0.3</org.keycloak.version>
 		<cxf-version>4.1.0</cxf-version>
+		<logback-access-version>1.5.16</logback-access-version>
 	</properties>
 
 	<dependencies>
@@ -91,14 +92,11 @@
 			<artifactId>logback-core</artifactId>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-parent -->
-		
-<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
-<dependency>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>logback-access</artifactId>
-    <version>1.5.16</version>
-</dependency>
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-access</artifactId>
+		    <version>${logback-access-version}</version>
+		</dependency>
 		
 		<!-- Replaced with below 
 		<dependency>
