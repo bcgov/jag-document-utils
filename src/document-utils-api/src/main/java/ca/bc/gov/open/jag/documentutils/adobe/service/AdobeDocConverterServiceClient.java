@@ -30,7 +30,7 @@ public class AdobeDocConverterServiceClient {
      * Creates a CXF Adobe Doc Converter Service client with MTOM enabled.
      */
 	@Bean
-    DocConverterService getDocConverterService() {
+    public DocConverterService getDocConverterService() {
     	
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setServiceClass(DocConverterService.class);
