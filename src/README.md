@@ -10,44 +10,59 @@ A RESTful Document Merge Service.
 | DOCMERGE_AEM_ENDPOINT | string | true | the AEM server endpoint |
 | DOCMERGE_AEM_USER | string | true | the AEM server user |
 | DOCMERGE_AEM_PASSWORD | string | true | the AEM server password |
-
-
-## Swagger-UI endpoint
-http://localhost:8082/docmerge/swagger-ui.html
+| DOCMERGE_CXF_LOGGING | bool | false | Enables CXF logging |
 
 ## API Endpoints
 
-Basic Merge
-http://localhost:8082/docmerge/merge/{correlationId}
+__Basic Merge__  
+POST: http://localhost:8080/docmerge/merge
 
-## Building AEM tools with Maven
-https://helpx.adobe.com/ca/experience-manager/6-3/sites/developing/using/ht-projects-maven.html
-https://helpx.adobe.com/aem-forms/6/aem-livecycle-connector.html#AdobeLiveCycleAssemblerClientbundle
+__Headers__  
+X-Correlation-ID: correlation Id  
+X-Client-ID:  client name  
 
 ## AEM engine
-AEM version : Sarcee, v6.2.0, GM
+AEM version: v6.5.22, GM
 
 ## Request Example
 ```json
 {
    "options":{
       "forcePDFAOnLoad": "true",  
-      "createToC": "true"
+      "createToC": "true",
+	  "forceEvenPageCount": "false"
    },
    "documents":[
       {
-         "id":"optional",
-         "docType":"pdf",
-         "order":1, 
+         "index": 1,
+         "title": "The Quick Brown Fox" 
          "data":"SGVsbG9Xb3JsZA=="
       },
       {
-         "id":"optional",
-         "docType":"pdf",
-         "order":2,
+         "index": 2,
+         "title": "Jumped over the lazy fence",
          "data":"SGVsbG9Xb3JsZA=="
       }
    ]
 }
 
+```  
+
+## Request Attributes
+
+| Name | type | Required | Description |
+| --- | --- | --- | --- |
+| forcePDFAOnLoad | String bool | false | Default is 8080 |
+| createToC | String bool | false | Create ToC entry from title |
+| forceEvenPageCount | String bool | false | Force even page number in output |
+
+__Note__: data is base64 PDF. 
+
+## Build and run locally 
+
 ```
+mvn clean  
+mvn generate-sources
+mvn spring-boot:run
+```
+  
