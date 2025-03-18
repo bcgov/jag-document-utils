@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.documentutils.adobe;
+package ca.bc.gov.open.jag.documentutils.adobe.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
