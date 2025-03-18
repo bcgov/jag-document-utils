@@ -89,7 +89,7 @@
 			<version>${io.opentracing.contrib.version}</version>
 		</dependency>
 		
-		<!-- Oauth2 -->
+		<!-- Oauth2 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -98,6 +98,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
+		-->
 		
 		<!-- Apache CXF for Java Proxies and SOAP clients -->
 		<dependency>
