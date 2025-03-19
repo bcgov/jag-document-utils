@@ -22,7 +22,7 @@ X-Correlation-ID: correlation Id
 X-Client-ID:  client name  
 
 ## AEM engine
-AEM version: v6.5.22, GM
+AEM version compatibility: v6.5.22, GM
 
 ## Request Example
 ```json
