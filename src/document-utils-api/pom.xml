@@ -132,21 +132,7 @@
 			<artifactId>pdfbox</artifactId>
 			<version>${org.apache.pdfbox.version}</version>
 		</dependency>
-
-		<!--
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.6.2</version>
-		</dependency>
-		-->
-
-		<dependency>
-			<groupId>javax.xml.soap</groupId>
-			<artifactId>javax.xml.soap-api</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-
+		
 	</dependencies>
 
 	<profiles>
@@ -243,10 +229,14 @@
 	                    <configuration>
 	                        <wsdlOptions>
 	                            <wsdlOption>
-	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-assembler_v901modified.wsdl</wsdl>
+	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-659-assembler-v901.wsdl</wsdl>
+	                                <extraargs>
+						                 <extraarg>-verbose</extraarg>
+						                  <extraarg>-client</extraarg>
+						             </extraargs>
 	                            </wsdlOption>
 	                            <wsdlOption>
-	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-docconverter_v901.wsdl</wsdl>
+	                                <wsdl>${project.basedir}/src/main/resources/wsdl/aem-659-docconverter-v901.wsdl</wsdl>
 	                            </wsdlOption>
 	                        </wsdlOptions>
 	                    </configuration>
