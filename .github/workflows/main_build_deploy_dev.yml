@@ -6,7 +6,7 @@ name: Main - Build Image and Push to Openshift Registry for Dev Deployment
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: [develop]
+    branches: [main]
   workflow_dispatch:
   env:
     IMAGE_NAME: jag-document-utils-api
