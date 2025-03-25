@@ -5,19 +5,13 @@ name: Main - Build Image and Push to Openshift Registry for Dev Deployment
 # Controls when the workflow will run
 on:
   # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      app:
-        description: 'App Name (jag-document-utils-api)'    
-        required: true
-        default: jag-document-utils-api
-      env:
-        type: choice
-        description: Image Target environment
-        options: 
-        - dev    
-        required: true
-        default: 'dev'
+  env:
+    IMAGE_NAME: jag-document-utils-api
+    WORKING_DIRECTORY: ./src/document-utils-api
+    ENV_TAG: dev
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,77 +23,79 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Git Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+
+      - name: Login to Artifactory
+        uses: docker/login-action@v1
+        with:
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
       
-      # Get Git latest short Sha# from the release branch used. This Sha# will be used in image tagging as well as DC Pod labelling.
-      - name: Get git commit short sha
-        id: sha
+      # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
         run: |
-          shortSha=$(echo $(git rev-parse --short HEAD) | cut -c1-7)
-          echo "gitsha=$shortSha" >> $GITHUB_ENV
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
       
       # Prints vital release paramters used
       - name: Print Release Variables
         run: |
-          echo "Release Application: ${{ github.event.inputs.app }}"
-          echo "Release Environment: ${{ github.event.inputs.env }}"
-          echo "Release Git Sha: ${{env.gitsha}}"
-      
-      #Build image jag-document-utils-api
-      - name: Build image jag-document-utils-api
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-          APP: ${{github.event.inputs.app}}
-          CONTEXT: ./src/document-utils-api
-        run: |
-          docker build \
-          -t ${APP}:${{env.gitsha}} \
-          --build-arg MVN_PROFILE=openshift \
-          --build-arg SKIP_TESTS=true \
-          ${CONTEXT}
-      
-      #Login to OpenShift Container Repository
-      - name: Login to OpenShift Container Repository
-        uses: docker/login-action@v2
-        with:
-          registry: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY}}
-          username: ${{secrets.OPENSHIFT_SA_USERNAME}}
-          password: ${{secrets.OPENSHIFT_SA_PASSWORD}}
+          echo "Release Application: ${{env.IMAGE_NAME}}"
+          echo "Release Environment: ${{env.ENV_TAG}}"
+          echo "Release Git Sha: ${{ steps.short_sha.outputs.SHORT_SHA }}"
 
-      #Push image jag-document-utils-api to OpenShift Image stream
-      - name: Push Image jag-document-utils-api to Openshift Image Stream
-        env:
-          IMAGE: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY}}/${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}/${{github.event.inputs.app}}:${{ github.event.inputs.env }}
+      - name: Build Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker tag ${{github.event.inputs.app}}:${{env.gitsha}} ${IMAGE}
-          docker push ${IMAGE}
+          docker build -t artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:${{env.ENV_TAG}} --build-arg MVN_PROFILE=openshift --build-arg SKIP_TESTS=true .
       
-      #Login to Openshift using OC SA and Token of respective env. for Pod labelling
-      - name: Authenticate OC Env Specific SA
-        uses: redhat-actions/oc-login@v1
-        env:
-          OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.env }}
-          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_Env_DEPLOYER_NAME}}
+      - name: Docker Push to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:${{env.ENV_TAG}}
+      
+      - name: Checkout ArgoCD Repo
+        id: gitops
+        uses: actions/checkout@v4
         with:
-          openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
-          openshift_token: ${{secrets.OPENSHIFT_SA_ENV_DEPLOYER_TOKEN}}
-          namespace: ${OPENSHIFT_NAMESPACE}
-      
-      # Labels the deployment config of the application with latest gitsha to spin up the pods labelled in same version
-      - name: Labelling DC of jag-document-utils-api to latest gitsha
-        env:
-          appName: ${{github.event.inputs.app}}
-          openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.env }}
+          repository: bcgov-c/tenant-gitops-735b8b
+          ref: develop
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+          path: gitops
+
+      - name: Update Helm Values and Commit
+        id: helm
+        if: steps.gitops.outcome == 'success'  # Only run if the previous step (publish) was successful
         run: |
-          oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.gitsha }}"}}}}}'
-      
-      # Wait to DC rollout of jag-document-utils-api to get completed
-      - name: Wait for DC rollout of jag-document-utils-api
-        env:
-          appName: ${{github.event.inputs.app}}
-          openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.env }}
-        run: |
-          oc rollout status -n ${openshiftEnvNamespace} dc/${appName} --watch
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          cd gitops/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/apitag: .*/apitag: ${{env.ENV_TAG}} # Image Updated on $DATETIME/" ../deploy/${{env.ENV_TAG}}_values.yaml
+
+          sed -i "s/apiVersion: .*/apiVersion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/${{env.ENV_TAG}}_values.yaml
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          
+          git add .
+          
+          git add ../deploy/dev_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd doc-utils-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Dev WEB image tag"
+          git push origin develop  # Update the branch name as needed
