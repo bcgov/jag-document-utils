@@ -195,9 +195,7 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>
-								prepare-agent
-							</goal>
+							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<!-- attached to Maven test phase -->
@@ -209,9 +207,7 @@
 							test
 						</phase>
 						<goals>
-							<goal>
-								report
-							</goal>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
