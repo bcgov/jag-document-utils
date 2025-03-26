@@ -22,7 +22,6 @@
 		<commons-io.version>2.18.0</commons-io.version>
 		<commons-discovery.version>0.5</commons-discovery.version>
 		<org.apache.pdfbox.version>3.0.4</org.apache.pdfbox.version>
-		<org.jacoco.version>0.8.12</org.jacoco.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
 		<io.opentracing.contrib.version>0.3.2</io.opentracing.contrib.version>		
 		<org.keycloak.version>11.0.3</org.keycloak.version>
@@ -185,32 +184,6 @@
 			            -Xshare:off
 			        </argLine>
 			    </configuration>
-			</plugin>
-
-			<!-- jacoco code coverage -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${org.jacoco.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<!-- attached to Maven test phase -->
-					<execution>
-						<id>
-							report
-						</id>
-						<phase>
-							test
-						</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			
 			<!-- Proxy class generation for AEM SOAP clients -->
