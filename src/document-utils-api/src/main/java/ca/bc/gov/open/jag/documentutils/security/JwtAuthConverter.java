@@ -53,7 +53,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         Map<String, Object> resource;
         Collection<String> resourceRoles;
 
-        Collection<? extends GrantedAuthority> resourceRoles1;
+        //Collection<? extends GrantedAuthority> resourceRoles1;
         if (jwt.getClaim(KEYCLOAK_RESOURCE_ATTRIBUTE) == null) {
             return Set.of();
         }
