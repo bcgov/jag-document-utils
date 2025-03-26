@@ -1,13 +1,16 @@
 package ca.bc.gov.open.jag.documentutils.adobe;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 @ConfigurationProperties(prefix = "aem")
 public class AemProperties {
 
     private String endpoint;
     private String username;
     private String password;
+    private boolean cxfLogging; 
 
     public String getEndpoint() {
         return endpoint;
@@ -32,4 +35,12 @@ public class AemProperties {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	public boolean isCxfLogging() {
+		return cxfLogging;
+	}
+
+	public void setCxfLogging(boolean cxfLogging) {
+		this.cxfLogging = cxfLogging;
+	}
 }

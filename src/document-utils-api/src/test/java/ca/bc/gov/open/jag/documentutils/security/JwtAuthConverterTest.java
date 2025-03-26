@@ -18,7 +18,7 @@ public class JwtAuthConverterTest {
 
 	@Test
 	void testNull() {
-		Jwt jwt = null;
+		//Jwt jwt = null;
 		JwtAuthConverter converter = new JwtAuthConverter();
 		assertThrows(NullPointerException.class, () -> converter.convert(null));
 	}

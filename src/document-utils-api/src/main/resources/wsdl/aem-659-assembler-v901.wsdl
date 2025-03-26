@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://adobe.com/idp/services" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://adobe.com/idp/services" xmlns:intf="http://adobe.com/idp/services" xmlns:tns1="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--Generated for Adobe LiveCycle 9.0.1-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://adobe.com/idp/services" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>
+   <element name="getVersion">
+    <complexType/>
+   </element>
+   <element name="getVersionResponse">
+    <complexType>
+     <sequence>
+      <element name="version" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVersionDebug">
+    <complexType>
+     <sequence>
+      <element maxOccurs="1" minOccurs="0" name="options" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVersionDebugResponse">
+    <complexType>
+     <sequence>
+      <element name="version" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="invoke">
+    <complexType>
+     <sequence>
+      <element name="inDDXDoc" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="inputs" type="impl:MyMapOf_xsd_string_To_xsd_anyType"/>
+      <element maxOccurs="1" minOccurs="0" name="environment" type="impl:AssemblerOptionSpec"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="MyMapOf_xsd_string_To_xsd_anyType_Item">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:string"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="MyMapOf_xsd_string_To_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:MyMapOf_xsd_string_To_xsd_anyType_Item"/>
+    </sequence>
+   </complexType>
+   <complexType name="BLOB">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="contentType" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="binaryData" type="xsd:base64Binary"/>
+     <element maxOccurs="1" minOccurs="0" name="attachmentID" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="remoteURL" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="MTOM" type="xsd:base64Binary" xmime:expectedContentTypes="*/*" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"/>
+     <element maxOccurs="1" minOccurs="0" name="swaRef" type="tns1:swaRef"/>
+     <element maxOccurs="1" minOccurs="0" name="attributes" type="impl:MyMapOf_xsd_string_To_xsd_anyType"/>
+    </sequence>
+   </complexType>
+   <simpleType name="AssemblerOptionSpec_DDXCompatibilityMode">
+    <restriction base="xsd:string">
+     <enumeration value="DDX_COMPATIBILITY_MODE_NONE"/>
+     <enumeration value="DDX_COMPATIBILITY_MODE_LC8_2"/>
+    </restriction>
+   </simpleType>
+   <complexType name="AssemblerOptionSpec">
+    <sequence>
+     <element name="ddxCompatibilityMode" nillable="true" type="impl:AssemblerOptionSpec_DDXCompatibilityMode"/>
+     <element name="defaultStyle" nillable="true" type="xsd:string"/>
+     <element name="failOnError" type="xsd:boolean"/>
+     <element name="firstBatesNumber" type="xsd:int"/>
+     <element name="logLevel" nillable="true" type="xsd:string"/>
+     <element name="takeOwnership" type="xsd:boolean"/>
+     <element name="validateOnly" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="invokeResponse">
+    <complexType>
+     <sequence>
+      <element name="result" nillable="true" type="impl:AssemblerResult"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="MyArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="AssemblerResult">
+    <sequence>
+     <element name="documents" nillable="true" type="apachesoap:Map"/>
+     <element name="failedBlockNames" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="jobLog" nillable="true" type="impl:BLOB"/>
+     <element name="lastBatesNumber" type="xsd:int"/>
+     <element name="multipleResultsBlocks" nillable="true" type="apachesoap:Map"/>
+     <element name="numRequestedBlocks" type="xsd:int"/>
+     <element name="successfulBlockNames" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="successfulDocumentNames" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="throwables" nillable="true" type="apachesoap:Map"/>
+    </sequence>
+   </complexType>
+   <element name="OperationException" type="xsd:anyType"/>
+   <element name="invokeOneDocument">
+    <complexType>
+     <sequence>
+      <element name="ddx" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="inDoc" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="environment" type="impl:AssemblerOptionSpec"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="invokeOneDocumentResponse">
+    <complexType>
+     <sequence>
+      <element name="result" nillable="true" type="impl:BLOB"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="invokeDDXOneDocument">
+    <complexType>
+     <sequence>
+      <element name="ddx" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="inDoc" type="impl:BLOB"/>
+      <element maxOccurs="1" minOccurs="0" name="environment" type="impl:AssemblerOptionSpec"/>
+      <element maxOccurs="1" minOccurs="0" name="execution-context" type="impl:PATExecutionContext"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="TemplateNode">
+    <sequence>
+     <element name="id" nillable="true" type="xsd:string"/>
+     <element name="qualifiedName" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AbstractTemplateDocument">
+    <complexContent>
+     <extension base="impl:TemplateNode">
+      <sequence>
+       <element name="description" nillable="true" type="xsd:string"/>
+       <element name="modified" type="xsd:boolean"/>
+       <element name="name" nillable="true" type="xsd:string"/>
+       <element name="pofObjectType" nillable="true" type="xsd:string"/>
+       <element name="templateId" type="xsd:long"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="DefaultAbstractTemplateDocument">
+    <complexContent>
+     <extension base="impl:AbstractTemplateDocument">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CollaborationTemplateDocument">
+    <complexContent>
+     <extension base="impl:AbstractTemplateDocument">
+      <sequence>
+       <element name="pools" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="serviceReferences" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ImageTemplate">
+    <complexContent>
+     <extension base="impl:TemplateNode">
+      <sequence>
+       <element name="base64String" nillable="true" type="xsd:string"/>
+       <element name="description" nillable="true" type="xsd:string"/>
+       <element name="fileName" nillable="true" type="xsd:string"/>
+       <element name="imageBytes" nillable="true" type="xsd:base64Binary"/>
+       <element name="imageLength" type="xsd:long"/>
+       <element name="name" nillable="true" type="xsd:string"/>
+       <element name="process" nillable="true" type="impl:ProcessTemplateDocument"/>
+       <element name="title" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ProcessTemplateDocument">
+    <complexContent>
+     <extension base="impl:AbstractTemplateDocument">
+      <sequence>
+       <element name="cachedVariableMap" nillable="true" type="apachesoap:Map"/>
+       <element name="declaredNamespaceMappings" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="deprecated" type="xsd:boolean"/>
+       <element name="deprecatedSince" nillable="true" type="xsd:string"/>
+       <element name="formConstructs" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="images" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="initForms" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="mainBranch" nillable="true" type="impl:BranchTemplate"/>
+       <element name="monitorAccessEnabled" type="xsd:boolean"/>
+       <element name="originalOrderedVariables" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="processImage" nillable="true" type="impl:ImageTemplate"/>
+       <element name="replacedBy" nillable="true" type="xsd:string"/>
+       <element name="startPoints" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="sunsettingOn" nillable="true" type="xsd:string"/>
+       <element name="title" nillable="true" type="xsd:string"/>
+       <element name="transactionPropagation" nillable="true" type="xsd:string"/>
+       <element name="transactionTimeout" type="xsd:int"/>
+       <element name="transient" type="xsd:boolean"/>
+       <element name="type" nillable="true" type="xsd:string"/>
+       <element name="variables" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Point2D">
+    <sequence>
+     <element name="location" nillable="true" type="impl:Point2D"/>
+     <element name="x" type="xsd:double"/>
+     <element name="y" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="Point">
+    <complexContent>
+     <extension base="impl:Point2D">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PoolTemplate">
+    <complexContent>
+     <extension base="impl:TemplateNode">
+      <sequence>
+       <element name="XPosition" type="xsd:int"/>
+       <element name="YPosition" type="xsd:int"/>
+       <element name="actions" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="branch" nillable="true" type="impl:BranchTemplate"/>
+       <element name="collaboration" nillable="true" type="impl:CollaborationTemplateDocument"/>
+       <element name="description" nillable="true" type="xsd:string"/>
+       <element name="endpoints" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="groups" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="name" nillable="true" type="xsd:string"/>
+       <element name="process" nillable="true" type="impl:ProcessTemplateDocument"/>
+       <element name="routes" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="startAction" nillable="true" type="impl:ActionTemplate"/>
+       <element name="swimlanes" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="texts" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="topLeft" nillable="true" type="impl:Point"/>
+       <element name="type" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContainerTemplate">
+    <complexContent>
+     <extension base="impl:TemplateNode">
+      <sequence>
+       <element name="XPosition" type="xsd:int"/>
+       <element name="YPosition" type="xsd:int"/>
+       <element name="abstractTemplate" nillable="true" type="impl:DefaultAbstractTemplateDocument"/>
+       <element name="actions" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="actionsInSameBranch" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="collaboration" nillable="true" type="impl:CollaborationTemplateDocument"/>
+       <element name="description" nillable="true" type="xsd:string"/>
+       <element name="endpoints" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="groups" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="name" nillable="true" type="xsd:string"/>
+       <element name="parentBranch" nillable="true" type="impl:BranchTemplate"/>
+       <element name="pool" nillable="true" type="impl:PoolTemplate"/>
+       <element name="process" nillable="true" type="impl:ProcessTemplateDocument"/>
+       <element name="routes" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="texts" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="type" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SplitTemplate">
+    <complexContent>
+     <extension base="impl:ActionTemplate">
+      <sequence>
+       <element name="branches" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="joinType" nillable="true" type="xsd:string"/>
+       <element name="maxHeight" type="xsd:int"/>
+       <element name="maxWidth" type="xsd:int"/>
+       <element name="width" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="BranchTemplate">
+    <complexContent>
+     <extension base="impl:ContainerTemplate">
+      <sequence>
+       <element name="parentSplit" nillable="true" type="impl:SplitTemplate"/>
+       <element name="pools" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="startAction" nillable="true" type="impl:ActionTemplate"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ActionTemplate">
+    <complexContent>
+     <extension base="impl:TemplateNode">
+      <sequence>
+       <element name="XPosition" type="xsd:int"/>
+       <element name="YPosition" type="xsd:int"/>
+       <element name="abstractTemplate" nillable="true" type="impl:DefaultAbstractTemplateDocument"/>
+       <element name="branch" nillable="true" type="impl:BranchTemplate"/>
+       <element name="color" nillable="true" type="xsd:string"/>
+       <element name="container" nillable="true" type="impl:ContainerTemplate"/>
+       <element name="description" nillable="true" type="xsd:string"/>
+       <element name="inRoutes" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="name" nillable="true" type="xsd:string"/>
+       <element name="outRoutes" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="outRoutesArrayList" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="process" nillable="true" type="impl:ProcessTemplateDocument"/>
+       <element name="start" type="xsd:boolean"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ExecuteTemplate">
+    <complexContent>
+     <extension base="impl:ActionTemplate">
+      <sequence>
+       <element name="componentId" nillable="true" type="xsd:string"/>
+       <element name="eventCatches" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="eventCatchsArrayList" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+       <element name="input" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="DATE">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="date" type="xsd:dateTime"/>
+     <element maxOccurs="1" minOccurs="0" name="calendar" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="Principal">
+    <sequence>
+     <element name="canonicalName" nillable="true" type="xsd:string"/>
+     <element name="commonName" nillable="true" type="xsd:string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="directGroupMemberships" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="domainCommonName" nillable="true" type="xsd:string"/>
+     <element name="domainName" nillable="true" type="xsd:string"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="emailAliases" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="groupMemberships" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="local" type="xsd:boolean"/>
+     <element name="locked" type="xsd:boolean"/>
+     <element name="oid" nillable="true" type="xsd:string"/>
+     <element name="org" nillable="true" type="xsd:string"/>
+     <element name="principalType" nillable="true" type="xsd:string"/>
+     <element name="roleMembership" nillable="true" type="impl:MyArrayOf_xsd_anyType"/>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="system" type="xsd:boolean"/>
+     <element name="timestampCreated" nillable="true" type="impl:DATE"/>
+     <element name="timestampUpdated" nillable="true" type="impl:DATE"/>
+     <element name="visibility" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Locale">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="language" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="country" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="variant" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="User">
+    <complexContent>
+     <extension base="impl:Principal">
+      <sequence>
+       <element name="businessCalendarKey" nillable="true" type="xsd:string"/>
+       <element name="disabled" type="xsd:boolean"/>
+       <element name="familyName" nillable="true" type="xsd:string"/>
+       <element name="givenName" nillable="true" type="xsd:string"/>
+       <element name="initials" nillable="true" type="xsd:string"/>
+       <element name="locale" nillable="true" type="impl:Locale"/>
+       <element name="postalAddress" nillable="true" type="xsd:string"/>
+       <element name="telephoneNumber" nillable="true" type="xsd:string"/>
+       <element name="timezone" nillable="true" type="xsd:string"/>
+       <element name="userid" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Context">
+    <sequence>
+     <element name="authenticatedUser" nillable="true" type="impl:User"/>
+     <element name="complete" type="xsd:boolean"/>
+     <element name="expirationHint" nillable="true" type="impl:DATE"/>
+     <element name="requestId" nillable="true" type="xsd:string"/>
+     <element name="userAssertion" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="PATExecutionContext">
+    <sequence>
+     <element name="actionId" type="xsd:long"/>
+     <element name="actionTemplate" nillable="true" type="impl:ActionTemplate"/>
+     <element name="branchId" type="xsd:long"/>
+     <element name="executeTemplate" nillable="true" type="impl:ExecuteTemplate"/>
+     <element name="processId" type="xsd:long"/>
+     <element name="systemContext" nillable="true" type="impl:Context"/>
+    </sequence>
+   </complexType>
+   <element name="invokeDDXOneDocumentResponse">
+    <complexType>
+     <sequence>
+      <element name="result" nillable="true" type="impl:BLOB"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://ws-i.org/profiles/basic/1.1/xsd" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://adobe.com/idp/services"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <simpleType name="swaRef">
+    <restriction base="xsd:anyURI"/>
+   </simpleType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://adobe.com/idp/services"/>
+   <import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>
+   <complexType name="mapItem">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:anyType"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="Map">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem"/>
+    </sequence>
+   </complexType>
+   <complexType name="Vector">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="OperationException">
+
+      <wsdl:part element="impl:OperationException" name="OperationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionRequest">
+
+      <wsdl:part element="impl:getVersion" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeRequest">
+
+      <wsdl:part element="impl:invoke" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeResponse">
+
+      <wsdl:part element="impl:invokeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionResponse">
+
+      <wsdl:part element="impl:getVersionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionDebugRequest">
+
+      <wsdl:part element="impl:getVersionDebug" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeOneDocumentResponse">
+
+      <wsdl:part element="impl:invokeOneDocumentResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeDDXOneDocumentResponse">
+
+      <wsdl:part element="impl:invokeDDXOneDocumentResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionDebugResponse">
+
+      <wsdl:part element="impl:getVersionDebugResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeOneDocumentRequest">
+
+      <wsdl:part element="impl:invokeOneDocument" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="invokeDDXOneDocumentRequest">
+
+      <wsdl:part element="impl:invokeDDXOneDocument" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="AssemblerService">
+
+      <wsdl:operation name="getVersion">
+
+         <wsdl:input message="impl:getVersionRequest" name="getVersionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getVersionResponse" name="getVersionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersionDebug">
+
+         <wsdl:input message="impl:getVersionDebugRequest" name="getVersionDebugRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getVersionDebugResponse" name="getVersionDebugResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invoke">
+
+         <wsdl:input message="impl:invokeRequest" name="invokeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:invokeResponse" name="invokeResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:OperationException" name="OperationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invokeOneDocument">
+
+         <wsdl:input message="impl:invokeOneDocumentRequest" name="invokeOneDocumentRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:invokeOneDocumentResponse" name="invokeOneDocumentResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:OperationException" name="OperationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invokeDDXOneDocument">
+
+         <wsdl:input message="impl:invokeDDXOneDocumentRequest" name="invokeDDXOneDocumentRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:invokeDDXOneDocumentResponse" name="invokeDDXOneDocumentResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:OperationException" name="OperationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="AssemblerServiceSoapBinding" type="impl:AssemblerService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdlsoap:operation soapAction="getVersion..9.0.1"/>
+
+         <wsdl:input name="getVersionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVersionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersionDebug">
+
+         <wsdlsoap:operation soapAction="getVersionDebug..9.0.1"/>
+
+         <wsdl:input name="getVersionDebugRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVersionDebugResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invoke">
+
+         <wsdlsoap:operation soapAction="invoke..9.0.1"/>
+
+         <wsdl:input name="invokeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="invokeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="OperationException">
+
+            <wsdlsoap:fault name="OperationException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invokeOneDocument">
+
+         <wsdlsoap:operation soapAction="invokeOneDocument..9.0.1"/>
+
+         <wsdl:input name="invokeOneDocumentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="invokeOneDocumentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="OperationException">
+
+            <wsdlsoap:fault name="OperationException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="invokeDDXOneDocument">
+
+         <wsdlsoap:operation soapAction="invokeDDXOneDocument..9.0.1"/>
+
+         <wsdl:input name="invokeDDXOneDocumentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="invokeDDXOneDocumentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="OperationException">
+
+            <wsdlsoap:fault name="OperationException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="AssemblerServiceService">
+
+      <wsdl:port binding="impl:AssemblerServiceSoapBinding" name="AssemblerService">
+
+         <wsdlsoap:address location="http://aem.dev.ag.gov.bc.ca/soap/services/AssemblerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
