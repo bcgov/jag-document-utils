@@ -1,0 +1,38 @@
+app:
+  version: 1.1.1
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KC_AUTH_SERVER_URL:http://localhost:8081/auth/realms/jag-document-utils-api}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  jackson:
+    default-property-inclusion: non-null
+  web:
+    resources:
+      add-mappings: 'false'
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'
+    description: '@project.description@'
+aem:
+  password: ${DOCMERGE_AEM_PASSWORD}
+  endpoint: ${DOCMERGE_AEM_ENDPOINT}
+  username: ${DOCMERGE_AEM_USER}
+  cxfLogging: ${DOCMERGE_CXF_LOGGING:false}
+management:
+  endpoint:
+    beans:
+      cache:
+        time-to-live: 10s
+    health:
+      show-details: always
+      show-components: always
+jwt:
+  auth:
+    converter:
+      resource-id: ${KC_AUTH_RESOURCE_ID:jag-document-utils-api}
+server:
+  port: ${SERVER_PORT:8080}

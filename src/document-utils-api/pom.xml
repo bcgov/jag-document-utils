@@ -24,7 +24,6 @@
 		<org.apache.pdfbox.version>3.0.4</org.apache.pdfbox.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
 		<io.opentracing.contrib.version>0.3.2</io.opentracing.contrib.version>		
-		<org.keycloak.version>11.0.3</org.keycloak.version>
 		<cxf-version>4.1.0</cxf-version>
 		<logback-access-version>1.5.16</logback-access-version>
 	</properties>
@@ -156,7 +155,7 @@
 				<dependency>
 					<groupId>com.splunk.logging</groupId>
 					<artifactId>splunk-library-javalogging</artifactId>
-					<version>1.11.3</version>
+					<version>1.11.8</version>
 				</dependency>
 			</dependencies>
 
