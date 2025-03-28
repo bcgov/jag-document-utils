@@ -8,10 +8,10 @@ Uses Adobe Experience Manager server to merge PDF documents via SOAP (MTOM).
 | Name | type | Required | Description |
 | --- | --- | --- | --- |
 | SERVER_PORT | integer | false | Default is 8080 |
-| DOCMERGE_AEM_ENDPOINT | string | true | the AEM server endpoint |
-| DOCMERGE_AEM_USER | string | true | the AEM server user |
-| DOCMERGE_AEM_PASSWORD | string | true | the AEM server password |
-| DOCMERGE_CXF_LOGGING | bool | false | Enables CXF logging |
+| DOCMERGE_AEM_ENDPOINT | string | true | AEM server endpoint |
+| DOCMERGE_AEM_USER | string | true | AEM server user |
+| DOCMERGE_AEM_PASSWORD | string | true | AEM server password |
+| DOCMERGE_CXF_LOGGING | bool | false | Enables CXF logging for req/resp troubleshooting |
 | KC_AUTH_RESOURCE_ID | string | true | Keycloak resource ID (clientID) |
 | KC_AUTH_SERVER_URL| string | true | Keycloak instance endpoint |
 
