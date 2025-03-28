@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${JDU_KC_AUTH_SERVER_URL:http://localhost:8081/auth/realms/jag-document-utils-api}
+          issuer-uri: ${KC_AUTH_SERVER_URL:http://localhost:8081/auth/realms/jag-document-utils-api}
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   jackson:
     default-property-inclusion: non-null
@@ -33,6 +33,6 @@ management:
 jwt:
   auth:
     converter:
-      resource-id: ${JDU_KC_AUTH_RESOURCE_ID:jag-document-utils-api}
+      resource-id: ${KC_AUTH_RESOURCE_ID:jag-document-utils-api}
 server:
   port: ${SERVER_PORT:8080}

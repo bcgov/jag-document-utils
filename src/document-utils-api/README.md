@@ -1,6 +1,7 @@
-## Document Merge Service
+## Document Utils Merge Service Quick Start
 
-A RESTful Document Merge Service. 
+A RESTful Document Merge Service.  
+Uses Adobe Experience Manager server to merge PDF documents via SOAP (MTOM).   
 
 ## Configuration
 
@@ -11,6 +12,8 @@ A RESTful Document Merge Service.
 | DOCMERGE_AEM_USER | string | true | the AEM server user |
 | DOCMERGE_AEM_PASSWORD | string | true | the AEM server password |
 | DOCMERGE_CXF_LOGGING | bool | false | Enables CXF logging |
+| KC_AUTH_RESOURCE_ID | string | true | Keycloak resource ID (clientID) |
+| KC_AUTH_SERVER_URL| string | true | Keycloak instance endpoint |
 
 ## API Endpoints
 
@@ -50,15 +53,19 @@ AEM version compatibility: v6.5.9
 
 ## Request Attributes
 
-| Name | type | Required | Description |
-| --- | --- | --- | --- |
-| forcePDFAOnLoad | String bool | false | Default is 8080 |
-| createToC | String bool | false | Create ToC entry from title |
-| forceEvenPageCount | String bool | false | Force even page number in output |
+|| Name | type | Required | Description |
+|| --- | --- | --- | --- |
+|options| | | | |
+|| forcePDFAOnLoad | String bool | false | Default is 8080 |
+|| createToC | String bool | false | Create ToC entry from title |
+|| forceEvenPageCount | String bool | false | Force even page number in output |
+|documents| | | | |
+|| index | number | true | Specifies output order index of page |
+|| title | string | false | Specifies title of content when toc option used |
+|| data | string | true | Base64 PDF document |
 
-__Note__: data is base64 PDF. 
 
-## Build and run locally 
+## Build and run locally (after enviro variables set)
 
 ```
 mvn clean  
