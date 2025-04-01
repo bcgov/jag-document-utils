@@ -27,7 +27,20 @@ X-Client-ID:  client name
 ## AEM engine
 AEM version compatibility: v6.5.9
 
-## Request Example
+## Request Attributes
+
+|Array| Attribute | type | Required | Description |
+|---| --- | --- | --- | --- |
+|options| | | | |
+|| forcePDFAOnLoad | String bool | false | Default is 8080 |
+|| createToC | String bool | false | Create ToC entry from title |
+|| forceEvenPageCount | String bool | false | Force even page number in output |
+|documents| | | | |
+|| index | number | true | Specifies output order index of page |
+|| title | string | false | Specifies title of content when toc option used |
+|| data | string | true | Base64 PDF document |  
+
+## Request Example  
 ```json
 {
    "options":{
@@ -48,22 +61,7 @@ AEM version compatibility: v6.5.9
       }
    ]
 }
-
 ```  
-
-## Request Attributes
-
-|| Name | type | Required | Description |
-|| --- | --- | --- | --- |
-|options| | | | |
-|| forcePDFAOnLoad | String bool | false | Default is 8080 |
-|| createToC | String bool | false | Create ToC entry from title |
-|| forceEvenPageCount | String bool | false | Force even page number in output |
-|documents| | | | |
-|| index | number | true | Specifies output order index of page |
-|| title | string | false | Specifies title of content when toc option used |
-|| data | string | true | Base64 PDF document |
-
 
 ## Build and run locally (after enviro variables set)
 
