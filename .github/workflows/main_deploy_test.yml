@@ -1,22 +1,20 @@
 # This is the main workflow that creates a new image and push to Openshift image stream which in turn triggers the deployment
 
-name: Main - Build Image and Push to Openshift Registry for Dev Deployment
+name: Main - Action for TEST Deployment
 
 # Controls when the workflow will run
 on:
-  # Allows you to run this workflow manually from the Actions tab
-  push:
-    branches: [main]
   workflow_dispatch:
+
 env:
   IMAGE_NAME: jag-document-utils-api
   WORKING_DIRECTORY: ./src/document-utils-api
-  ENV_TAG: dev
+  ENV_TAG: test
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build-push-image:
+  push-image:
     # The type of runner that the job will run on
     runs-on: ubuntu-24.04
     environment: ${{ github.event.inputs.env }}
@@ -46,21 +44,11 @@ jobs:
           echo "Release Environment: ${{env.ENV_TAG}}"
           echo "Release Git Sha: ${{ steps.short_sha.outputs.SHORT_SHA }}"
 
-      - name: Build Image
+      - name: Pull and Retag Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -t artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:${{env.ENV_TAG}} --build-arg MVN_PROFILE=openshift --build-arg SKIP_TESTS=true .
-      
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:  
-          image-ref: artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:${{env.ENV_TAG}} 
-          scan-type: image  
-          format: 'table'  
-          vuln-type: os,library  
-          ignore-unfixed: true  
-          limit-severities-for-sarif: true  
-          severity: HIGH,CRITICAL
+          docker pull artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:dev
+          docker tag artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:dev artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:${{env.ENV_TAG}}
       
       - name: Docker Push to Artifactory
         run: |
@@ -71,7 +59,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: bcgov-c/tenant-gitops-735b8b
-          ref: develop
+          ref: test
           token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
           path: gitops
 
@@ -96,7 +84,7 @@ jobs:
           
           git add .
           
-          git add ../deploy/dev_values.yaml
+          git add ../deploy/${{env.ENV_TAG}}_values.yaml
           
           # Repackage Helm Chart      
 
@@ -108,5 +96,5 @@ jobs:
 
           git add .
           
-          git commit -m "Update Dev WEB image tag"
-          git push origin develop  # Update the branch name as needed
+          git commit -m "Update Test jag document utils image tag"
+          git push origin test  # Update the branch name as needed
