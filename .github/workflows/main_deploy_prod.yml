@@ -44,11 +44,11 @@ jobs:
           echo "Release Environment: ${{env.ENV_TAG}}"
           echo "Release Git Sha: ${{ steps.short_sha.outputs.SHORT_SHA }}"
       
-      - name: Backup Prod Image
-        working-directory: ${{env.WORKING_DIRECTORY}}
-        run: |
-          docker pull artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod
-          docker tag artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod-backup
+      #- name: Backup Prod Image
+      #  working-directory: ${{env.WORKING_DIRECTORY}}
+      #  run: |
+      #    docker pull artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod
+      #    docker tag artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod artifacts.developer.gov.bc.ca/d735-doc-utils/${{env.IMAGE_NAME}}:prod-backup
 
       - name: Pull and Retag Image
         working-directory: ${{env.WORKING_DIRECTORY}}
