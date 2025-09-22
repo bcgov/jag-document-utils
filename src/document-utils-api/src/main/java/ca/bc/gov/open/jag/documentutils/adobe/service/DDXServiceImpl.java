@@ -56,19 +56,19 @@ public class DDXServiceImpl implements DDXService {
         Document document = documentBuilder.newDocument();
 
         // Create the root element and append it to the XML DOM
-        Element root = (Element) document.createElement(AdobeKeys.DDX_ELEMENT_DDX);
+        Element root = document.createElement(AdobeKeys.DDX_ELEMENT_DDX);
         root.setAttribute(AdobeKeys.DDX_NAMESPACE_ATTRIBUTE, AdobeKeys.DDX_NAMESPACE);
         document.appendChild(root);
 
         // Create the output element
-        Element PDFs = (Element) document.createElement(AdobeKeys.DDX_ELEMENT_PDF);
+        Element PDFs = document.createElement(AdobeKeys.DDX_ELEMENT_PDF);
         PDFs.setAttribute(AdobeKeys.DDX_OUTPUT_ATTRIBUTE, AdobeKeys.DDX_OUTPUT_NAME);
         root.appendChild(PDFs);
 
         // Add ToC?
         if (addToC) {
             logger.info("Adding table of contents...");
-            Element ToC = (Element) document.createElement("TableOfContents");
+            Element ToC = document.createElement("TableOfContents");
             ToC.setAttribute("bookmarkTitle", "Table Of Contents");
             PDFs.appendChild(ToC);
         }
@@ -76,7 +76,7 @@ public class DDXServiceImpl implements DDXService {
         // Add each pageId element to the DDX
         for( MergeDoc element: pageList ) {
         	
-            Element PDF = (Element) document.createElement(AdobeKeys.DDX_ELEMENT_PDF);
+            Element PDF = document.createElement(AdobeKeys.DDX_ELEMENT_PDF);
             PDF.setAttribute(AdobeKeys.DDX_SOURCE_ATTRIBUTE, element.getId());
             
             // from JustinCJB-1684: If there's a title, add a bookmark. 
@@ -120,7 +120,7 @@ public class DDXServiceImpl implements DDXService {
             return writer.toString();
             
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error during conversion to string", e);
             throw new MergeException("Error converting a DDX Document object to a string.", e);
         }
     }
