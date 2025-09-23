@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,7 @@ public class DocumentController {
 			consumes = MediaTypes.APPLICATION_JSON,
 			produces = MediaTypes.APPLICATION_JSON)
 	@RolesAllowed({Keys.API_ROLE_NAME})
+	@PreAuthorize("hasRole('document-utils-client')")
 	public ResponseEntity<DocMergeResponse> mergeDocumentPost(
 			@RequestHeader(value = "X-Correlation-ID", required = true) String correlationId,
 			@RequestHeader(value = "X-Client-ID", required = true) String clientId,

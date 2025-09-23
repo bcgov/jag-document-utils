@@ -49,7 +49,7 @@ public class PDFBoxUtilities {
 			try {
 				doc.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Error during document close", e);
 			}
 		}
 		
