@@ -67,7 +67,7 @@ public class AemServiceImpl implements AemService {
 			// CJB-1685
 			if (request.getOptions().isForceEvenPageCount()) {
 				logger.info("Forcing Even Page count");
-				FixPageCount(pageList);
+				fixPageCount(pageList);
 			}
 
 			// Use DDXService to Dynamically generate the DDX file.
@@ -121,8 +121,8 @@ public class AemServiceImpl implements AemService {
 	    return new DataHandler(dataSource);
 	}
 
-	private void FixPageCount(LinkedList<MergeDoc> pageList) {
-		pageList.forEach((element) -> MakeEvenPages(element));
+	private void fixPageCount(LinkedList<MergeDoc> pageList) {
+		pageList.forEach(this::makeEvenPages);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class AemServiceImpl implements AemService {
 	 * @param MergeDoc
 	 * @return
 	 */
-	private void MakeEvenPages(MergeDoc pdfDoc) {
+	private void makeEvenPages(MergeDoc pdfDoc) {
 
 		if (null != pdfDoc.getFile()) {
 			int n = PDFBoxUtilities.getPages(pdfDoc.getFile());
@@ -142,10 +142,7 @@ public class AemServiceImpl implements AemService {
 				try {
 					PDFBoxUtilities.addBlankPage(pdfDoc);
 				} catch (IOException e) {
-					logger.error(
-							"MakeEvenPages: Failure to add a new page to document with an odd number of pages. Detail: "
-									+ e.getMessage());
-					e.printStackTrace();
+					logger.error("MakeEvenPages: Failure to add a new page to document with an odd number of pages.", e);
 				}
 			}
 		}
