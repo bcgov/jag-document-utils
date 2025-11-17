@@ -24,7 +24,7 @@
 		<org.apache.pdfbox.version>3.0.4</org.apache.pdfbox.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
 		<io.opentracing.contrib.version>0.3.2</io.opentracing.contrib.version>		
-		<cxf-version>4.1.3</cxf-version>
+		<cxf-version>4.1.4</cxf-version>
 		<logback-access-version>1.5.16</logback-access-version>
 	</properties>
 
