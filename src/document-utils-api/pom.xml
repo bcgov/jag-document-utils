@@ -19,7 +19,7 @@
 		<java.version>17</java.version>
 		<log4j2.version>2.24.1</log4j2.version>
 		<springfox.version>3.0.0</springfox.version>
-		<commons-io.version>2.18.0</commons-io.version>
+		<commons-io.version>2.21.0</commons-io.version>
 		<commons-discovery.version>0.5</commons-discovery.version>
 		<org.apache.pdfbox.version>3.0.6</org.apache.pdfbox.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
