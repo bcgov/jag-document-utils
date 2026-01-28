@@ -21,7 +21,7 @@
 		<springfox.version>3.0.0</springfox.version>
 		<commons-io.version>2.18.0</commons-io.version>
 		<commons-discovery.version>0.5</commons-discovery.version>
-		<org.apache.pdfbox.version>3.0.4</org.apache.pdfbox.version>
+		<org.apache.pdfbox.version>3.0.6</org.apache.pdfbox.version>
 		<net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
 		<io.opentracing.contrib.version>0.3.2</io.opentracing.contrib.version>		
 		<cxf-version>4.1.3</cxf-version>
